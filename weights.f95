@@ -1,0 +1,2 @@
+module Weights
+    implicit nano
