@@ -22,4 +22,11 @@ module types
     end type Layer
 
     
+  type Net
+        real :: error
+        integer :: lnum
+        type(Layer), dimension(:), allocatable :: layers
+  end type Net
+
+    
 end module types 

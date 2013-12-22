@@ -2,15 +2,15 @@ program main
     use types
     implicit none   
     
+
+    integer, dimension(0:2) :: topology
     integer :: i
-    type(layer) :: neu,neu1
-    call init_layer(neu,1)
-    call init_layer(neu1,1)
-   
-    write(*,*) neu%neurons(0)%outputWeights%weight
-    write(*,*) neu1%neurons(0)%outputWeights%weight
- 
-    call adaptWeights(neu1%neurons(0), neu)    
+    type(Net) :: net1
+    topology(0)=10
+    topology(1)=5
+    topology(2)=1
+    call init_net(net1,topology,3,0.0,0.0)
+
 stop
 
 end program main

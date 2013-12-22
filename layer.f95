@@ -1,13 +1,13 @@
    
-    subroutine init_layer(this,n)
+    subroutine init_layer(this,ni,no,eta, alpha)
         use types
         type(layer) :: this
-        integer :: n,i
-        this%n = n-1          
-        
+        integer :: ni,i,no
+        real :: eta, alpha
+        this%n = ni-1          
         allocate(this%neurons(0:this%n)) 
         init_loop: do, i=0, this%n
-            call init_Neuron(this%neurons(i),1,i,0.0,0.0) 
+            call init_Neuron(this%neurons(i),no,i,eta,alpha) 
         end do init_loop
  
     end subroutine init_layer 
