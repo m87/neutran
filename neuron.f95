@@ -58,4 +58,55 @@
     end subroutine adaptWeights
 
 
+    function sumNext(this, next) result(sum_)
+      use types
+       type(Neuron) :: this
+       type(Layer) :: next
+       real :: sum_
+       integer :: i
+       
+       sum_ = 0.0
+       suma: do,i=0,next%n
+          sum_ = sum_ + this%outputWeights(i)%weight * next%neurons(i)%gradient
+       end do suma
+             
+
+    end function sumNext
+    
+    
+    subroutine calcHiddenGradients(this, next)
+        use types
+        type(Neuron) :: this
+        type(Layer) :: next
+        real :: snext
+
+        snex = sumNext(this,next)
+        this%gradient = snext * activeFuncD(output)
+    end subroutine calcHiddenGradients
+     
+    subroutine calcOutputGradients(this, target_)
+        use types
+        type(Neuron) :: this
+        real :: target_, delta
+        delta = target_ - this%output 
+        this%gradient = delta * activeFuncD(output)
+    end subroutine calcOutputGradients
+
+    subroutine feedForward(this, prev)
+        use types
+        type(Neuron) :: this
+        type(Layer) :: prev
+        real :: sum_
+        integer :: i
+
+        sum_ = 0.0
+
+        main_loop: do, i=0, prev%n
+            sum_ = sum_ + prev%neurons(i)%output * prev%neurons(i)%outputWeights(this%id)%weight
+        end do main_loop
+            
+        this%output = activeFunc(sum_)    
+
+    end subroutine feedForward  
+
 
