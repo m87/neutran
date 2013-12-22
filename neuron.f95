@@ -1,33 +1,61 @@
-module class_Neuron
-    use weights
-    !use vector
-implicit none
-!    private :: init_Neuron     
-    public :: Neuron!, feedForward, setOutput, getOutput, calcOutputGradients, calcHiddenGradients, adaptWeights, getWeights
-     
-    type Neuron
-       integer :: id
-       integer :: eta
-       integer :: alpha
-       integer :: no
-       
-       type(tweights), dimension(:), allocatable :: outputWeights
-    end type Neuron
-contains
-    subroutine init_Neuron(this,id,eta,alpha,no)
+
+    subroutine init_Neuron(this,no,id,eta,alpha)
+        
+        use types
         type(Neuron) :: this
-        integer :: i, id,eta,alpha,no
+        integer :: i, id,no
+        real eta, alpha
         this%id = id
         this%eta = eta
         this%alpha = alpha
-        this%no = no
- 
+        this%no = no -1
+        
         allocate(this%outputWeights(0:this%no)) 
         init_loop: do, i=0, this%no
-           this%outputWeights%weight = 1.0 !rand here 
+            call random_number(this%outputWeights%weight) 
         end do init_loop
          
-        write(*,*) this%outputWeights%weight 
-
     end subroutine init_Neuron
-end module class_Neuron      
+
+!activation func -----------------------------------------------------
+    function activeFunc(x) result(f)
+        use types
+        real :: x, f
+        
+        f=1.0/(1.0+exp(-x))
+
+    end function activeFunc
+
+    function activeFuncD(x) result(fd)
+        real :: x, fd, f
+        
+        f=activeFunc(x)
+        fd=(1.0-f)*f
+                
+    end function activeFuncD    
+           
+!---------------------------------------------------------------------
+
+    
+    subroutine adaptWeights(this,prev)
+        use types
+        type(Neuron) :: this, pn
+        type(Layer) :: prev
+        integer :: i        
+        real oldDeltaWeight, newDeltaWeight
+        
+
+        main_loop: do, i=0, prev%n
+           pn = prev%neurons(i)
+           oldDeltaWeight = pn%outputWeights(this%id)%deltaweight
+           newDeltaWeight=this%eta*pn%output*this%gradient+this%alpha*oldDeltaWeight
+           pn%outputWeights(this%id)%deltaweight = newDeltaWeight
+           pn%outputWeights(this%id)%weight = pn%outputWeights(this%id)%weight + newDeltaWeight  
+        end do main_loop
+        
+
+
+    end subroutine adaptWeights
+
+
+
