@@ -12,7 +12,7 @@
         
         allocate(this%outputWeights(0:this%no)) 
         init_loop: do, i=0, this%no
-            call random_number(this%outputWeights%weight) 
+            call random_number(this%outputWeights(i)%weight)
         end do init_loop
          
     end subroutine init_Neuron
@@ -39,18 +39,18 @@
     
     subroutine adaptWeights(this,prev)
         use types
-        type(Neuron) :: this, pn
+        type(Neuron) :: this
         type(Layer) :: prev
         integer :: i        
         real oldDeltaWeight, newDeltaWeight
         
 
         main_loop: do, i=0, prev%n
-           pn = prev%neurons(i)
-           oldDeltaWeight = pn%outputWeights(this%id)%deltaweight
-           newDeltaWeight=this%eta*pn%output*this%gradient+this%alpha*oldDeltaWeight
-           pn%outputWeights(this%id)%deltaweight = newDeltaWeight
-           pn%outputWeights(this%id)%weight = pn%outputWeights(this%id)%weight + newDeltaWeight  
+           
+           oldDeltaWeight = prev%neurons(i)%outputWeights(this%id)%deltaweight
+           newDeltaWeight=this%eta*prev%neurons(i)%output*this%gradient+this%alpha*oldDeltaWeight
+           prev%neurons(i)%outputWeights(this%id)%deltaweight = newDeltaWeight
+          prev%neurons(i)%outputWeights(this%id)%weight = prev%neurons(i)%outputWeights(this%id)%weight + newDeltaWeight  
         end do main_loop
         
 

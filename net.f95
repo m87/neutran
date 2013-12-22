@@ -18,33 +18,31 @@ end subroutine init_net
 subroutine backProp(this, targets,n)
     use types
     type(Net) :: this
-    type(Layer) :: last
     real, dimension(0:n-1) :: targets
     integer :: i,ln 
     real :: delta
 
-    last = this%layers(this%lnum)
     this%error = 0.0
 
-    do, i=0, last%n
-        delta = targets(i) - last%neurons(i)%output
-        error = error + delta*delta
+    do, i=0, this%layers(this%lnum)%n
+        delta = targets(i) - this%layers(this%lnum)%neurons(i)%output
+        this%error = this%error + delta*delta
     end do
 
-    error = error / last%n
-    error = sqrt(error)
+    this%error = this%error / this%layers(this%lnum)%n
+    this%error = sqrt(this%error)
 
-    do, i=0, last%n
-        call calcOutputGradients(last%neurons(i), targets(i))
+    do, i=0, this%layers(this%lnum)%n
+        call calcOutputGradients(this%layers(this%lnum)%neurons(i), targets(i))
     end do
 
-   first: do, ln = this%lnum-1, 1
+   first: do, ln = this%lnum-1, 1,-1
         second: do,i =0, this%layers(ln)%n
          call calcHiddenGradients(this%layers(ln)%neurons(i), this%layers(ln+1))
         end do second
    end do first
 
-    first1: do, ln = this%lnum , 1
+    first1: do, ln = this%lnum , 1,-1
         second1: do, i=0,this%layers(ln)%n
            call adaptWeights(this%layers(ln)%neurons(i), this%layers(ln-1))
         end do second1
