@@ -1,6 +1,11 @@
-   
+module class_layer  
+
+       use types
+public::init_layer
+
+contains 
     subroutine init_layer(this,ni,no,eta, alpha)
-        use types
+       use class_neuron
         type(layer) :: this
         integer :: ni,i,no
         real :: eta, alpha
@@ -12,4 +17,4 @@
  
     end subroutine init_layer 
 
-
+end module class_layer

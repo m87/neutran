@@ -1,7 +1,12 @@
+module class_neuron
+use types    
+    public:: init_neuron, activeFunc,activeFuncD,adaptWeights,calcHiddenGradients,calcOutputGradients,feedForward
 
-    subroutine init_Neuron(this,no,id,eta,alpha)
+
+contains
+
+    subroutine init_neuron(this,no,id,eta,alpha)
         
-        use types
         type(Neuron) :: this
         integer :: i, id,no
         real eta, alpha
@@ -19,7 +24,6 @@
 
 !activation func -----------------------------------------------------
     function activeFunc(x) result(f)
-        use types
         real :: x, f
         
         f=1.0/(1.0+exp(-x))
@@ -38,7 +42,6 @@
 
     
     subroutine adaptWeights(this,prev)
-        use types
         type(Neuron) :: this
         type(Layer) :: prev
         integer :: i        
@@ -59,7 +62,6 @@
 
 
     function sumNext(this, next) result(sum_)
-      use types
        type(Neuron) :: this
        type(Layer) :: next
        real :: sum_
@@ -75,7 +77,6 @@
     
     
     subroutine calcHiddenGradients(this, next)
-        use types
         type(Neuron) :: this
         type(Layer) :: next
         real :: snext
@@ -85,7 +86,7 @@
     end subroutine calcHiddenGradients
      
     subroutine calcOutputGradients(this, target_)
-        use types
+        
         type(Neuron) :: this
         real :: target_, delta
         delta = target_ - this%output 
@@ -93,7 +94,6 @@
     end subroutine calcOutputGradients
 
     subroutine feedForward(this, prev)
-        use types
         type(Neuron) :: this
         type(Layer) :: prev
         real :: sum_
@@ -109,4 +109,4 @@
 
     end subroutine feedForward  
 
-
+end module class_neuron

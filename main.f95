@@ -1,5 +1,8 @@
 program main
     use types
+    use class_layer
+    use class_net
+    use class_neuron
     implicit none   
     
 

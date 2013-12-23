@@ -16,17 +16,21 @@ module types
        type(tweights), dimension(:), allocatable :: outputWeights
     end type Neuron
 
+
+
   type Layer
         integer :: n
         type(Neuron), dimension(:), allocatable :: neurons
     end type Layer
 
-    
+
   type Net
         real :: error
         integer :: lnum
         type(Layer), dimension(:), allocatable :: layers
   end type Net
+
+
 
     
 end module types 

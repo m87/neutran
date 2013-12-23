@@ -1,5 +1,12 @@
+module class_net
+use types
+use class_layer
+use class_neuron
+public:: init_net,backProp,feedForwardNet
+
+
+contains
 subroutine init_net(this, topology, n, eta, alpha)
-    use types
     type(Net) :: this
     integer,dimension(0:n-1) :: topology
     integer :: n
@@ -16,7 +23,7 @@ end subroutine init_net
 
 
 subroutine backProp(this, targets,n)
-    use types
+   
     type(Net) :: this
     real, dimension(0:n-1) :: targets
     integer :: i,ln 
@@ -69,3 +76,5 @@ subroutine feedForwardNet(this,input,n)
 
 end subroutine feedForwardNet
 
+
+end module class_net
