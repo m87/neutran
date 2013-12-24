@@ -1,11 +1,11 @@
 module class_neuron
 use types    
-    public:: init_neuron, activeFunc,activeFuncD,adaptWeights,calcHiddenGradients,calcOutputGradients,feedForward
+    public:: neuron_init, neuron_activeFunc,neuron_activeFuncD,neuron_adaptWeights,neuron_calcHiddenGradients,neuron_calcOutputGradients,neuron_feedForward
 
 
 contains
 
-    subroutine init_neuron(this,no,id,eta,alpha)
+    subroutine neuron_init(this,no,id,eta,alpha)
         
         type(Neuron) :: this
         integer :: i, id,no
@@ -20,28 +20,28 @@ contains
             call random_number(this%outputWeights(i)%weight)
         end do init_loop
          
-    end subroutine init_Neuron
+    end subroutine neuron_init
 
 !activation func -----------------------------------------------------
-    function activeFunc(x) result(f)
+    function neuron_activeFunc(x) result(f)
         real :: x, f
         
         f=1.0/(1.0+exp(-x))
 
-    end function activeFunc
+    end function neuron_activeFunc
 
-    function activeFuncD(x) result(fd)
+    function neuron_activeFuncD(x) result(fd)
         real :: x, fd, f
         
-        f=activeFunc(x)
+        f=neuron_activeFunc(x)
         fd=(1.0-f)*f
                 
-    end function activeFuncD    
+    end function neuron_activeFuncD    
            
 !---------------------------------------------------------------------
 
     
-    subroutine adaptWeights(this,prev)
+    subroutine neuron_adaptWeights(this,prev)
         type(Neuron) :: this
         type(Layer) :: prev
         integer :: i        
@@ -58,10 +58,10 @@ contains
         
 
 
-    end subroutine adaptWeights
+    end subroutine neuron_adaptWeights
 
 
-    function sumNext(this, next) result(sum_)
+    function neuron_sumNext(this, next) result(sum_)
        type(Neuron) :: this
        type(Layer) :: next
        real :: sum_
@@ -73,27 +73,27 @@ contains
        end do suma
              
 
-    end function sumNext
+    end function neuron_sumNext
     
     
-    subroutine calcHiddenGradients(this, next)
+    subroutine neuron_calcHiddenGradients(this, next)
         type(Neuron) :: this
         type(Layer) :: next
         real :: snext
 
-        snex = sumNext(this,next)
-        this%gradient = snext * activeFuncD(output)
-    end subroutine calcHiddenGradients
+        snex = neuron_sumNext(this,next)
+        this%gradient = snext * neuron_activeFuncD(output)
+    end subroutine neuron_calcHiddenGradients
      
-    subroutine calcOutputGradients(this, target_)
+    subroutine neuron_calcOutputGradients(this, target_)
         
         type(Neuron) :: this
         real :: target_, delta
         delta = target_ - this%output 
-        this%gradient = delta * activeFuncD(output)
-    end subroutine calcOutputGradients
+        this%gradient = delta * neuron_activeFuncD(output)
+    end subroutine neuron_calcOutputGradients
 
-    subroutine feedForward(this, prev)
+    subroutine neuron_feedForward(this, prev)
         type(Neuron) :: this
         type(Layer) :: prev
         real :: sum_
@@ -105,8 +105,8 @@ contains
             sum_ = sum_ + prev%neurons(i)%output * prev%neurons(i)%outputWeights(this%id)%weight
         end do main_loop
             
-        this%output = activeFunc(sum_)    
+        this%output = neuron_activeFunc(sum_)    
 
-    end subroutine feedForward  
+    end subroutine neuron_feedForward  
 
 end module class_neuron

@@ -2,27 +2,27 @@ module class_net
 use types
 use class_layer
 use class_neuron
-public:: init_net,backProp,feedForwardNet
+public:: net_init,net_backProp,net_feedForward
 
 
 contains
-subroutine init_net(this, topology, n, eta, alpha)
+subroutine net_init(this, topology, n, eta, alpha)
     type(Net) :: this
     integer,dimension(0:n-1) :: topology
     integer :: n
     real :: eta, alpha
     this%lnum = n-1
         allocate(this%layers(0:this%lnum)) 
-        call init_layer(this%layers(this%lnum),topology(this%lnum),0,eta,alpha) 
+        call layer_init(this%layers(this%lnum),topology(this%lnum),0,eta,alpha) 
             
         init_loop: do, i=0, this%lnum-1
-            call init_layer(this%layers(i),topology(i),topology(i+1),eta,alpha)
+            call layer_init(this%layers(i),topology(i),topology(i+1),eta,alpha)
         end do init_loop
  
-end subroutine init_net
+end subroutine net_init
 
 
-subroutine backProp(this, targets,n)
+subroutine net_backProp(this, targets,n)
    
     type(Net) :: this
     real, dimension(0:n-1) :: targets
@@ -40,24 +40,24 @@ subroutine backProp(this, targets,n)
     this%error = sqrt(this%error)
 
     do, i=0, this%layers(this%lnum)%n
-        call calcOutputGradients(this%layers(this%lnum)%neurons(i), targets(i))
+        call neuron_calcOutputGradients(this%layers(this%lnum)%neurons(i), targets(i))
     end do
 
    first: do, ln = this%lnum-1, 1,-1
         second: do,i =0, this%layers(ln)%n
-         call calcHiddenGradients(this%layers(ln)%neurons(i), this%layers(ln+1))
+         call neuron_calcHiddenGradients(this%layers(ln)%neurons(i), this%layers(ln+1))
         end do second
    end do first
 
     first1: do, ln = this%lnum , 1,-1
         second1: do, i=0,this%layers(ln)%n
-           call adaptWeights(this%layers(ln)%neurons(i), this%layers(ln-1))
+           call neuron_adaptWeights(this%layers(ln)%neurons(i), this%layers(ln-1))
         end do second1
     end do first1     
 
-end subroutine backProp
+end subroutine net_backProp
 
-subroutine feedForwardNet(this,input,n)
+subroutine net_feedForward(this,input,n)
     use types
     integer :: n
     type(Net) :: this
@@ -70,11 +70,11 @@ subroutine feedForwardNet(this,input,n)
 
    first: do, ln = 1, this%lnum
         second: do,i =0, this%layers(ln)%n
-            call feedForward(this%layers(ln)%neurons(i), this%layers(ln-1))
+            call neuron_feedForward(this%layers(ln)%neurons(i), this%layers(ln-1))
         end do second
    end do first
 
-end subroutine feedForwardNet
+end subroutine net_feedForward
 
 
 end module class_net

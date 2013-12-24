@@ -20,10 +20,10 @@ program main
     input(2)=1.0
 
     targets(0)=0.8
-    call init_net(net1,topology,3,0.05,0.1)
+    call net_init(net1,topology,3,0.05,0.1)
     do, i=0, 10000
-        call feedForwardNet(net1, input,3)
-        call backProp(net1,targets,1 )
+        call net_feedForward(net1, input,3)
+        call net_backProp(net1,targets,1 )
         write(*,*) net1%layers(2)%neurons%output
     end do
 

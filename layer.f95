@@ -1,10 +1,10 @@
 module class_layer  
 
        use types
-public::init_layer
+public::layer_init
 
 contains 
-    subroutine init_layer(this,ni,no,eta, alpha)
+    subroutine layer_init(this,ni,no,eta, alpha)
        use class_neuron
         type(layer) :: this
         integer :: ni,i,no
@@ -12,9 +12,9 @@ contains
         this%n = ni-1          
         allocate(this%neurons(0:this%n)) 
         init_loop: do, i=0, this%n
-            call init_Neuron(this%neurons(i),no,i,eta,alpha) 
+            call neuron_init(this%neurons(i),no,i,eta,alpha) 
         end do init_loop
  
-    end subroutine init_layer 
+    end subroutine layer_init 
 
 end module class_layer
