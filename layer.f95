@@ -1,6 +1,5 @@
 module class_layer  
-
-       use types
+use types
 public::layer_init
 
 contains 

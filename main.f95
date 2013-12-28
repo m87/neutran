@@ -21,12 +21,14 @@ program main
 
     targets(0)=0.8
     call net_init(net1,topology,3,0.05,0.1)
+    
+        write(*,*) net1%layers(2)%neurons%output
     do, i=0, 10000
         call net_feedForward(net1, input,3)
         call net_backProp(net1,targets,1 )
-        write(*,*) net1%layers(2)%neurons%output
     end do
 
+        write(*,*) net1%layers(2)%neurons%output
 stop
 
 end program main
