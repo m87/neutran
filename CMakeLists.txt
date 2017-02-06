@@ -8,6 +8,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_library(neutran SHARED src/types.f95 src/functions.f95 src/neuron.f95
     src/layer.f95 src/nnet.f95)
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/test)
 
 add_custom_command(
     TARGET neutran POST_BUILD
