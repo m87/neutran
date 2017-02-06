@@ -1,9 +1,10 @@
-module Types
+module neutran_Types
     implicit none    
     
     type Neuron
-        real :: weight
+        real, dimension(:), allocatable :: weights
         real :: delta
+        integer :: weightsSize
     end type Neuron
 
     type Layer
@@ -16,4 +17,4 @@ module Types
         type(Layer), dimension(:), allocatable :: layers
     end type NNet
 
-end module Types
+end module neutran_Types
