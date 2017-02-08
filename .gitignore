@@ -3,5 +3,8 @@
 *.swp
 *.o
 release/*
+test/release/*
 lib/*
 include/*
+test/lib/*
+test/include/*

@@ -1,8 +1,9 @@
 program neuronTest
+    use nt_TypesModule
+    use nt_NeuronModule
     use SFT_Assert
     use SFT_Suit
-    use neutran_Types
-    use neutran_Neuron
+    implicit none
 
     type(suit) :: testSuit
     call init(testSuit)
@@ -15,12 +16,14 @@ program neuronTest
     contains
 
         function shouldCorrectlyInitNeuron() result(res)
+            use nt_TypesModule
+            implicit none
             logical :: res
-            type(Neuron) :: neuron
-            type(Neuron) :: neuronWithBias
+            type(nt_Neuron) :: neuron
+            type(nt_Neuron) :: neuronWithBias
 
-            call neuron_init(neuron, 10, .False.)
-            call neuron_init(neuronWithBias, 10, .TRUE.)
+            call nt_neuronInit(neuron, 10, .False.)
+            call nt_neuronInit(neuronWithBias, 10, .TRUE.)
 
             res = assertEqual(neuron%weightsSize, 10)
         end function
