@@ -12,9 +12,10 @@ module nt_TypesModule
         type(nt_Neuron), dimension(:), allocatable :: neurons
     end type nt_Layer
 
-    type neutra_Net
+    type nt_Net
         integer :: numberOfLayers
+        integer, dimension(:), allocatable :: topology
         type(nt_Layer), dimension(:), allocatable :: layers
-    end type neutra_Net
+    end type nt_Net
 
 end module nt_TypesModule

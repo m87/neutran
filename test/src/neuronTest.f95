@@ -16,8 +16,6 @@ program neuronTest
     contains
 
         function shouldCorrectlyInitNeuron() result(res)
-            use nt_TypesModule
-            implicit none
             logical :: res
             type(nt_Neuron) :: neuron
             type(nt_Neuron) :: neuronWithBias
@@ -25,10 +23,8 @@ program neuronTest
             call nt_neuronInit(neuron, 10, .False.)
             call nt_neuronInit(neuronWithBias, 10, .TRUE.)
 
-            res = sft_assertEqual(neuron%weightsSize, 10)
-        end function
-
-
-
+            res = sft_assertEqual(neuron%weightsSize, 10) &
+                .AND. sft_assertEqual(neuronWithBias%weightsSize, 11)
+        end function shouldCorrectlyInitNeuron
 
 end program neuronTest
