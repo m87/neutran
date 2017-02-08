@@ -1,17 +1,17 @@
 program neuronTest
     use nt_TypesModule
     use nt_NeuronModule
-    use SFT_Assert
-    use SFT_Suit
+    use sft_AssertModule
+    use sft_SuiteModule
     implicit none
 
-    type(suit) :: testSuit
-    call init(testSuit)
+    type(sft_Suite) :: testSuite
+
+    call sft_init(testSuite)
     
-    call run(testSuit, shouldCorrectlyInitNeuron)
+    call sft_run(testSuite, shouldCorrectlyInitNeuron)
 
-    call summary(testSuit)
-
+    call sft_summary(testSuite)
 
     contains
 
@@ -25,7 +25,7 @@ program neuronTest
             call nt_neuronInit(neuron, 10, .False.)
             call nt_neuronInit(neuronWithBias, 10, .TRUE.)
 
-            res = assertEqual(neuron%weightsSize, 10)
+            res = sft_assertEqual(neuron%weightsSize, 10)
         end function
 
 

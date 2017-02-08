@@ -4,7 +4,7 @@ project (neutran)
 set(CMAKE_BUILD_TYPE Release)
 enable_language (Fortran)
 
-set(NEUTRANLIB, ${CMAKE_CURRENT_SOURCE_DIR})
+set(PRERELEASE, ${CMAKE_BINARY_DIR})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_library(neutran SHARED src/types.f95 src/functions.f95 src/neuron.f95
