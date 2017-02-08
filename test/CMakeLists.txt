@@ -4,15 +4,17 @@ project (tests)
 set(CMAKE_BUILD_TYPE Release)
 enable_language (Fortran)
 
-LINK_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}../lib)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}../lib/include)
-
-add_executable(neuronTest.test neuronTest.f95)
-TARGET_LINK_LIBRARIES(neuronTest.test sft)
-TARGET_LINK_LIBRARIES(neuronTest.test neutran)
+link_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib ${NEUTRANLIB}/lib)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${NUTRANLIB}/include)
+add_executable(neuronTest.test src/neuronTest.f95)
+TARGET_LINK_LIBRARIES(neuronTest.test sft neutran)
 
 
+set(UNIT_TEST neuronTest.test)
 add_custom_command(
-    TARGET neutran POST_BUILD
-    COMMAND ./neuronTest.test
+TARGET ${UNIT_TEST}
+COMMENT "Run tests"
+POST_BUILD 
+COMMAND ${UNIT_TEST}
 )
+

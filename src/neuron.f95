@@ -1,12 +1,12 @@
-module neutran_Neuron
-    use neutran_Types
+module nt_NeuronModule
+    use nt_TypesModule
     
-    public :: neuron_init
+    public :: neu_neuronInit
 
     contains
 
-        subroutine neuron_init(this, nextLayerSize, bias)
-            type(Neuron) :: this
+        subroutine nt_neuronInit(this, nextLayerSize, bias)
+            type(nt_Neuron) :: this
             integer :: nextLayerSize
             logical :: bias
             integer :: layerSize
@@ -24,7 +24,7 @@ module neutran_Neuron
             end do init_loop
             this%delta  = 0.0
 
-        end subroutine neuron_init
+        end subroutine nt_neuronInit
             
 
-end module neutran_Neuron
+end module nt_NeuronModule
