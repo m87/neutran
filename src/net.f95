@@ -19,7 +19,7 @@ module nt_NetModule
                 call nt_layerInit(this%layers(i), topology(i), topology(i+1), i, bias)
             end do init_loop
             
-            call nt_layerInitLast(this%layers(size(topology)-1), topology(size(topology)-1), bias)
+            call nt_layerInitLast(this%layers(size(topology)-1), topology(size(topology)-1), bias, size(topology)-1)
 
 
         end subroutine

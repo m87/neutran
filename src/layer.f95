@@ -35,16 +35,33 @@ module nt_LayerModule
             integer :: nextLayerSize
             integer :: i
             logical :: bias
-            !TODO impl
+
+            this%layerSize = layerSize
+            this%id = 0
+
+            allocate(this%neurons(0:layerSize))
+            init_loop: do, i=0, layerSize
+               call nt_neuronInit(this%neurons(i), nextLayerSize, bias)
+            end do init_loop
+
         end subroutine nt_layerInit_first
 
-        subroutine nt_layerInit_last(this, layerSize, bias)
+        subroutine nt_layerInit_last(this, layerSize, bias, lastId)
             type(nt_Layer) :: this
             integer :: layerSize
-            integer :: nextLayerSize
+            integer :: lastId
             integer :: i
             logical :: bias
-            !TODO impl
+
+            this%layerSize = layerSize
+            this%id = lastId
+
+            allocate(this%neurons(0:layerSize))
+            init_loop: do, i=0, layerSize
+               call nt_neuronInit(this%neurons(i), 0, bias)
+            end do init_loop
+
+
 
         end subroutine nt_layerInit_last
 
@@ -56,11 +73,12 @@ module nt_LayerModule
             call nt_layerInit_first(this, layerSize, nextLayerSize, bias)
         end subroutine nt_layerInitFirst
 
-        subroutine nt_layerInitLast(this, layerSize, bias)
+        subroutine nt_layerInitLast(this, layerSize, bias, lastId)
             type(nt_Layer) :: this
             integer :: layerSize
+            integer :: lastId
             logical :: bias
-            call nt_layerInit_last(this, layerSize, bias)
+            call nt_layerInit_last(this, layerSize, bias, lastId)
         end subroutine nt_layerInitLast
 
 end module nt_LayerModule
