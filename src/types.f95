@@ -4,11 +4,12 @@ module nt_TypesModule
     type nt_Neuron
         real, dimension(:), allocatable :: weights
         real :: delta
-        integer :: weightsSize
+        integer :: nextLayerSize
     end type nt_Neuron
 
     type nt_Layer
         integer :: id
+        integer :: layerSize
         type(nt_Neuron), dimension(:), allocatable :: neurons
     end type nt_Layer
 

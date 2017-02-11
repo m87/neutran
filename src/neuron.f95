@@ -20,9 +20,10 @@ module nt_NeuronModule
             allocate(this%weights(0:nextLayerSize))
             init_loop: do, i=0, nextLayerSize
                call random_number(this%weights(i))
-               this%weightsSize = layerSize
             end do init_loop
+            
             this%delta  = 0.0
+            this%nextLayerSize = layerSize
 
         end subroutine nt_neuronInit
             
