@@ -1,4 +1,4 @@
-program neuronTest
+program functionsTest
     use nt_TypesModule
     use nt_NeuronModule
     use sft_AssertModule
@@ -11,4 +11,5 @@ program neuronTest
     
     call sft_summary(testSuite)
 
-end program neuronTest
+
+end program functionsTest

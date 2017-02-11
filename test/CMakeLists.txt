@@ -13,12 +13,39 @@ TARGET_LINK_LIBRARIES(neuronTest.test sft neutran)
 add_executable(netTest.test src/netTest.f95)
 TARGET_LINK_LIBRARIES(netTest.test sft neutran)
 
-set(UNIT_TEST neuronTest.test netTest.test)
+add_executable(layerTest.test src/layerTest.f95)
+TARGET_LINK_LIBRARIES(layerTest.test sft neutran)
+
+add_executable(functionsTest.test src/functionsTest.f95)
+TARGET_LINK_LIBRARIES(functionsTest.test sft neutran)
+
+
+
 add_custom_command(
-TARGET ${UNIT_TEST}
-COMMENT "Run tests"
-POST_BUILD 
-COMMAND ${UNIT_TEST}
+    TARGET functionsTest.test
+    COMMENT "Run functionsTest"
+    POST_BUILD 
+    COMMAND netTest.test
 )
 
+add_custom_command(
+    TARGET neuronTest.test
+    COMMENT "Run neuronTest"
+    POST_BUILD 
+    COMMAND neuronTest.test
+)
+
+add_custom_command(
+    TARGET layerTest.test
+    COMMENT "Run layerTest"
+    POST_BUILD 
+    COMMAND layerTest.test
+)
+
+add_custom_command(
+    TARGET netTest.test
+    COMMENT "Run netTest"
+    POST_BUILD 
+    COMMAND netTest.test
+)
 
