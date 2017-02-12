@@ -9,22 +9,22 @@ program neuronTest
 
     call sft_init(testSuite)
     
-    call sft_run(testSuite, shouldCorrectlyInitNeuron)
+    call sft_run(testSuite, shouldCorrectlyInitHiddenNeuron)
 
     call sft_summary(testSuite)
 
     contains
 
-        function shouldCorrectlyInitNeuron() result(res)
+        function shouldCorrectlyInitHiddenNeuron() result(res)
             logical :: res
             type(nt_Neuron) :: neuron
             type(nt_Neuron) :: neuronWithBias
 
-            call nt_neuronInit(neuron, 10, .False.)
-            call nt_neuronInit(neuronWithBias, 10, .TRUE.)
+            call nt_hiddenNeuronInit(neuron, 10, .False.)
+            call nt_hiddenNuronInit(neuronWithBias, 10, .TRUE.)
 
-            res = sft_assertEqual(neuron%weightsSize, 10) &
-                .AND. sft_assertEqual(neuronWithBias%weightsSize, 11)
-        end function shouldCorrectlyInitNeuron
+            res = sft_assertEqual(size(neuron%synapses), 10) &
+                .AND. sft_assertEqual(size(neuronWithBias%synapses), 11)
+        end function shouldCorrectlyInitHiddenNeuron
 
 end program neuronTest

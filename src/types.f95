@@ -1,9 +1,13 @@
 module nt_TypesModule
     implicit none    
     
-    type nt_Neuron
-        real, dimension(:), allocatable :: weights
+    type nt_Synapse
+        real :: weight
         real :: delta
+    end type nt_Synapse
+
+    type nt_Neuron
+        type(nt_Synapse), dimension(:), allocatable :: synapses
         integer :: nextLayerSize
     end type nt_Neuron
 
