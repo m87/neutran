@@ -18,9 +18,9 @@ module nt_LayerModule
             this%layerSize = layerSize
             this%id = id
 
-            allocate(this%neurons(0:layerSize))
+            allocate(this%neurons(0:layerSize - 1))
             init_loop: do, i=0, layerSize
-               call nt_neuronInit(this%neurons(i), nextLayerSize, bias)
+               call nt_hiddenNeuronInit(this%neurons(i), nextLayerSize, bias)
             end do init_loop
 
         end subroutine nt_hiddenLayerInit
@@ -35,9 +35,9 @@ module nt_LayerModule
             this%layerSize = layerSize
             this%id = 0
 
-            allocate(this%neurons(0:layerSize))
+            allocate(this%neurons(0:layerSize - 1))
             init_loop: do, i=0, layerSize
-               call nt_neuronInit(this%neurons(i), nextLayerSize, bias)
+               call nt_inputNeuronInitneuronInit(this%neurons(i), nextLayerSize, bias)
             end do init_loop
 
         end subroutine nt_firstLayerInit
@@ -52,11 +52,12 @@ module nt_LayerModule
             this%layerSize = layerSize
             this%id = lastId
 
-            allocate(this%neurons(0:layerSize))
+            allocate(this%neurons(0:layerSize - 1))
             init_loop: do, i=0, layerSize
-               call nt_neuronInit(this%neurons(i), 0, bias)
+               call nt_outputNeuronInit(this%neurons(i), 0, bias)
             end do init_loop
 
         end subroutine nt_lastLayerInit
 
+        b
 end module nt_LayerModule

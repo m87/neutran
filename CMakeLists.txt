@@ -8,7 +8,7 @@ set(PRERELEASE ${CMAKE_BINARY_DIR})
 
 include_directories(${PRERELEASE})
 add_library(neutran SHARED src/types.f95 src/functions.f95 src/neuron.f95
-    src/layer.f95 src/net.f95 src/initMethods.f95)
+    src/initMethods.f95)
 
 add_subdirectory(test)
 

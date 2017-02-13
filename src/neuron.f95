@@ -16,7 +16,7 @@ module nt_NeuronModule
                 end subroutine weightInitMethod
             end interface
 
-            allocate(this%synapses(0:nextLayerSize))
+            allocate(this%synapses(0:nextLayerSize - 1))
             init_loop: do, i=0, nextLayerSize
                call weightInitMethod(this%synapses(i)%weight, weightInitMethodArgs)
                this%synapses(i)%delta = 0.0 
