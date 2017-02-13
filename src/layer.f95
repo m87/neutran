@@ -3,15 +3,11 @@ module nt_LayerModule
     use nt_NeuronModule
     implicit none
 
-    public :: nt_layerInit, nt_layerInitFirst, nt_layerInitLast
-
-    interface nt_layerInit
-        module procedure nt_layerInit_hidden, nt_layerInit_last, nt_layerInit_first
-    end interface nt_layerInit
+    public :: nt_hiddenLayerInit, nt_firstLayerInit, nt_lastLayerInit
 
     contains
 
-        subroutine nt_layerInit_hidden(this, layerSize, nextLayerSize, id, bias)
+        subroutine nt_hiddenLayerInit(this, layerSize, nextLayerSize, id, bias)
             type(nt_Layer) :: this
             integer :: layerSize
             integer :: nextLayerSize
@@ -27,9 +23,9 @@ module nt_LayerModule
                call nt_neuronInit(this%neurons(i), nextLayerSize, bias)
             end do init_loop
 
-        end subroutine nt_layerInit_hidden
+        end subroutine nt_hiddenLayerInit
 
-        subroutine nt_layerInit_first(this, layerSize, nextLayerSize, bias)
+        subroutine nt_firstLayerInit(this, layerSize, nextLayerSize, bias)
             type(nt_Layer) :: this
             integer :: layerSize
             integer :: nextLayerSize
@@ -44,9 +40,9 @@ module nt_LayerModule
                call nt_neuronInit(this%neurons(i), nextLayerSize, bias)
             end do init_loop
 
-        end subroutine nt_layerInit_first
+        end subroutine nt_firstLayerInit
 
-        subroutine nt_layerInit_last(this, layerSize, bias, lastId)
+        subroutine nt_lastLayerInit(this, layerSize, bias, lastId)
             type(nt_Layer) :: this
             integer :: layerSize
             integer :: lastId
@@ -61,24 +57,6 @@ module nt_LayerModule
                call nt_neuronInit(this%neurons(i), 0, bias)
             end do init_loop
 
-
-
-        end subroutine nt_layerInit_last
-
-        subroutine nt_layerInitFirst(this, layerSize, nextLayerSize, bias)
-            type(nt_Layer) :: this
-            integer :: layerSize
-            integer :: nextLayerSize
-            logical :: bias
-            call nt_layerInit_first(this, layerSize, nextLayerSize, bias)
-        end subroutine nt_layerInitFirst
-
-        subroutine nt_layerInitLast(this, layerSize, bias, lastId)
-            type(nt_Layer) :: this
-            integer :: layerSize
-            integer :: lastId
-            logical :: bias
-            call nt_layerInit_last(this, layerSize, bias, lastId)
-        end subroutine nt_layerInitLast
+        end subroutine nt_lastLayerInit
 
 end module nt_LayerModule

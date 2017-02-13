@@ -5,35 +5,39 @@ module nt_NeuronModule
 
     contains
 
-        subroutine nt_hiddenNeuronInit(this, nextLayerSize, bias)
+        subroutine nt_hiddenNeuronInit(this, nextLayerSize, weightInitMethod, weightInitMethodArgs)
             type(nt_Neuron) :: this
             integer :: nextLayerSize
-            logical :: bias
-            integer :: layerSize
-
-            if (bias) then
-                layerSize = nextLayerSize + 1
-            else
-                layerSize = nextLayerSize
-            end if
+            real, intent(in) :: weightInitMethodArgs(0:)
+            interface 
+                subroutine weightInitMethod(weight, args)
+                    real, intent(out) :: weight
+                    real, intent(in) :: args(0:)
+                end subroutine weightInitMethod
+            end interface
 
             allocate(this%synapses(0:nextLayerSize))
             init_loop: do, i=0, nextLayerSize
-               call random_number(this%synapses(i)%weight)
+               call weightInitMethod(this%synapses(i)%weight, weightInitMethodArgs)
                this%synapses(i)%delta = 0.0 
             end do init_loop
             
-            this%nextLayerSize = layerSize
+            this%nextLayerSize = nextLayerSize
 
         end subroutine nt_hiddenNeuronInit
         
-        subroutine nt_inputNeuronInit(this, nextLayerSize, bias)
+        subroutine nt_inputNeuronInit(this, nextLayerSize, weightInitMethod, weightInitMethodArgs)
             type(nt_Neuron) :: this
             integer :: nextLayerSize
-            logical :: bias
-            integer :: layerSize
-            
-            call nt_hiddenNeuronInit(this, nextLayerSize, bias)
+            real, intent(in) :: weightInitMethodArgs(0:)
+            interface 
+                subroutine weightInitMethod(weight, args)
+                    real, intent(out) :: weight
+                    real, intent(in) :: args(0:)
+                end subroutine weightInitMethod
+            end interface
+
+            call nt_hiddenNeuronInit(this, nextLayerSize, weightInitMethod, weightInitMethodArgs)
 
         end subroutine nt_inputNeuronInit
         

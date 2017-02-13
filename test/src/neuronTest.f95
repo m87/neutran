@@ -1,6 +1,7 @@
 program neuronTest
     use nt_TypesModule
     use nt_NeuronModule
+    use nt_initMethodsModule
     use sft_AssertModule
     use sft_SuiteModule
     implicit none
@@ -18,13 +19,12 @@ program neuronTest
         function shouldCorrectlyInitHiddenNeuron() result(res)
             logical :: res
             type(nt_Neuron) :: neuron
-            type(nt_Neuron) :: neuronWithBias
 
-            call nt_hiddenNeuronInit(neuron, 10, .False.)
-            call nt_hiddenNuronInit(neuronWithBias, 10, .TRUE.)
+            call nt_hiddenNeuronInit(neuron, 10, constInit, (/ 10.0 /))
 
-            res = sft_assertEqual(size(neuron%synapses), 10) &
-                .AND. sft_assertEqual(size(neuronWithBias%synapses), 11)
+            res = sft_assertEqual(size(neuron%synapses), 10)  & 
+                .AND. sft_assertEqual(neuron%synapses(4)%weight, 10.0) 
+                
         end function shouldCorrectlyInitHiddenNeuron
 
 end program neuronTest
