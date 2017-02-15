@@ -10,11 +10,11 @@ module nt_InitMethodsModule
             call random_number(weight)
         end subroutine randomInit
 
-        subroutine constInit(weight, args)
+        subroutine fixedInit(weight, args)
             real, intent(out) :: weight
             real, intent(in) :: args(0:)
 
             weight = args(0)
-        end subroutine constInit
+        end subroutine fixedInit
 
 end module
