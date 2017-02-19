@@ -32,20 +32,20 @@ module nt_LayerModule
             
             allocate(this%neurons(0:layerSize - 1))
             
-            if (layerType .eq. 0) then
-                do, i=0, layerSize
-                   call nt_inputNeuronInit(this%neurons(i), nextLayerSize, weightInitMethod, weightInitMethodArgs)
-                end do
-            !else if (layerType .eq. 2) then
-            !    output_loop: do, i=0, layerSize
-            !        call nt_outputNeuronInit(this%neurons(i))
-            !    end do output_loop
-            !else
-            !    hidden_loop: do, i=0, layerSize
-            !        call nt_hiddenNeuronInit(this%neurons(i), nextLayerSize, weightInitMethod, weightInitMethodArgs)
-            !    end do hidden_loop
-            end if
-
+            select case (layerType)
+                case (0)
+                    do, i=0, layerSize - 1
+                       call nt_inputNeuronInit(this%neurons(i), nextLayerSize, weightInitMethod, weightInitMethodArgs)
+                    end do    
+                case (2)
+                    output_loop: do, i=0, layerSize - 1
+                        call nt_outputNeuronInit(this%neurons(i))
+                    end do output_loop
+                case default
+                    hidden_loop: do, i=0, layerSize - 1
+                        call nt_hiddenNeuronInit(this%neurons(i), nextLayerSize, weightInitMethod, weightInitMethodArgs)
+                    end do hidden_loop
+            end select
 
         end subroutine nt_layerInit_custom
 
