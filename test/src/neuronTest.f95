@@ -21,7 +21,7 @@ program neuronTest
             logical :: res
             type(nt_Neuron) :: neuron
 
-            call nt_hiddenNeuronInit(neuron, 10, mockWeightInitMethod, (/ 4.0 /))
+            call nt_hiddenNeuronInit(neuron, 10, mockWeightInitMethod, (/ 4.0 /), .FALSE.)
 
             res = sft_assertEqual(size(neuron%synapses), 10)  & 
                 .AND. sft_assertEqual(neuron%synapses(4)%weight, 4.0) 

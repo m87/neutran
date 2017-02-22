@@ -22,7 +22,7 @@ program layerTest
             type(nt_Layer) :: layer
             
             !when
-            call nt_layerInit(layer, 1, 5, 10, 4)
+            call nt_layerInit(layer, 1, 5, 10, 4, .FALSE.)
 
             !then
             res = sft_assertEqual(5, layer%layerSize) &
@@ -38,7 +38,7 @@ program layerTest
             type(nt_Layer) :: layer
 
             !when
-            call nt_layerInit(layer, 2, 5, 10, 4)
+            call nt_layerInit(layer, 2, 5, 10, 4, .FALSE.)
 
             !then
             res = sft_assertEqual(5, layer%layerSize) &
@@ -54,7 +54,7 @@ program layerTest
             type(nt_Layer) :: layer
 
             !when
-            call nt_layerInit(layer, 0, 5, 10, 4)
+            call nt_layerInit(layer, 0, 5, 10, 4, .FALSE.)
 
             !then
             res = sft_assertEqual(5, layer%layerSize) &

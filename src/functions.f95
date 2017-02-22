@@ -1,4 +1,4 @@
-module Functions
+module nt_FunctionsModule
     public :: logistic, logisticd, const, constd
 
     contains
@@ -49,4 +49,4 @@ module Functions
 
         end function constd
 
-end module Functions
+end module nt_FunctionsModule

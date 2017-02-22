@@ -17,4 +17,5 @@ module nt_InitMethodsModule
             weight = args(0)
         end subroutine fixedInit
 
-end module
+end module nt_InitMethodsModule
+
