@@ -9,6 +9,7 @@ module nt_TypesModule
     type nt_Neuron
         type(nt_Synapse), dimension(:), allocatable :: synapses
         integer :: nextLayerSize
+        real :: output
     end type nt_Neuron
 
     type nt_Layer

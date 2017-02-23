@@ -88,6 +88,49 @@ module nt_NetModule
         end subroutine nt_classify    
 
 
+        subroutine nt_netFeed(this, activationFunction, args, input)
+            type(nt_Net) :: this
+            real :: args(0:)
+            real :: input(0:)
+            integer :: i, l
+            integer :: numberOfLayers
+            
+            interface
+                function activationFunction(x, args) result(fx)
+                    real :: x
+                    real :: args(0:)
+                    real :: fx
+                end function activationFunction
+            end interface
+
+            numberOfLayers = size(this%topology)
+
+            do, i=0, this%layers(0)%layerSize - 1
+                this%layers(0)%neurons(i)%output = input(i)
+            end do
+               
+            first: do, l = 0, numberOfLayers - 1
+                second: do,i =0, this%layers(l)%layerSize - 1
+                    !call nt_neuronFeed(this%layers(l)%neurons(i), this%layers(l-1), activationFunction, args)
+                end do second
+            end do first
+
+        end subroutine nt_netFeed
+
+        subroutine nt_netBackPropagation(this, activationFunctionDerivative, args)
+            type(nt_Net) :: this
+            real :: args(0:)
+    
+            interface
+                function activationFunctionDerivative(x, args) result(fx)
+                    real :: x
+                    real :: args(0:)
+                    real :: fx
+                end function activationFunction
+            end interface
+
+        end subroutine nt_netBackPropagation
+
 
 
 end module nt_NetModule
