@@ -3,6 +3,10 @@ module nt_NeuronModule
     
     public :: nt_hiddenNeuronInit, nt_outputNeuronInit, nt_inputNeuronInit
 
+    interface nt_neuronFeed
+        module procedure nt_neuronFeed_default, nt_neuronFeed_custom
+    end interface
+
     contains
 
         subroutine nt_hiddenNeuronInit(this, nextLayerSize, weightInitMethod, weightInitMethodArgs, bias)
@@ -55,6 +59,28 @@ module nt_NeuronModule
             this%nextLayerSize = 0
 
         end subroutine nt_outputNeuronInit
-             
+
+        subroutine nt_neuronFeed_default(this, previousLayer)
+            type(nt_Neuron) :: this
+            type(nt_Layer) :: previousLayer
+
+            call nt_neuronFeed_default(this, previousLayer, logistc, (/ 1.0 /))
+
+        end subroutine nt_neuronFeed_default     
+
+        subroutine nt_neuronFeed_custom(this, previousLayer, activationFunction, args)
+            type(nt_Neuron) :: this
+            type(nt_Layer) :: previousLayer
+            real, intent(in) :: args(0:)
+
+            interface
+                function activationFunction(x, args) result(fx)
+                    real, intent(in) :: x
+                    real, intent(in) :: args(0:)
+                    real :: fx
+                end function activationFunction
+            end interface
+
+        end subroutine nt_neuronFeed_custom
 
 end module nt_NeuronModule

@@ -2,6 +2,7 @@ module nt_LayerModule
     use nt_TypesModule
     use nt_NeuronModule
     use nt_InitMethodsModule
+    use nt_FunctionsModule
     implicit none
 
     public :: nt_layerInit
@@ -9,6 +10,10 @@ module nt_LayerModule
     interface nt_layerInit
         module procedure nt_layerInit_random, nt_layerInit_custom
     end interface
+
+    interface nt_layerFeed
+        module procedure nt_layerFeed_default, nt_layerFeed_custom
+    end interface nt_layerFeed
 
     contains
         subroutine nt_layerInit_custom(this, layerType, layerSize, nextLayerSize, id, weightInitMethod, weightInitMethodArgs, bias)
@@ -66,6 +71,26 @@ module nt_LayerModule
 
         end subroutine nt_layerInit_random
 
+        subroutine nt_layerFeed_default(previous, next)
+            type(nt_Layer) :: previous
+            type(nt_Layer) :: next
+            
+            call nt_layerFeed_custom(previous, next, logistc, (/ 1.0 /))           
+        end subroutine nt_layerFeed_default
 
+        subroutine nt_layerFeed_custom(previous, next, activationFunction, args)
+            type(nt_Layer) :: previous
+            type(nt_Layer) :: next
+            real, intent(in) :: args(0:)
+
+            interface
+                function activationFunction(x, args) result(fx)
+                    real, intent(in) :: x
+                    real, intent(in) :: args(0:)
+                    real :: fx
+                end function activationFunction
+            end interface
+
+        end subroutine nt_layerFeed_custom
 
 end module nt_LayerModule

@@ -131,6 +131,4 @@ module nt_NetModule
 
         end subroutine nt_netBackPropagation
 
-
-
 end module nt_NetModule
