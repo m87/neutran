@@ -117,16 +117,24 @@ module nt_NetModule
 
         end subroutine nt_netFeed
 
-        subroutine nt_netBackPropagation(this, activationFunctionDerivative, args)
+        subroutine nt_netBackPropagation(this, targets, activationFunction, activationFunctionDerivative, args)
             type(nt_Net) :: this
             real :: args(0:)
+            real, intent(in) :: targets(0:)
     
             interface
-                function activationFunctionDerivative(x, args) result(fx)
+                function activationFunction(x, args) result(fx)
                     real :: x
                     real :: args(0:)
                     real :: fx
                 end function activationFunction
+                
+                function activationFunctionDerivative(x, args) result(fx)
+                    real :: x
+                    real :: args(0:)
+                    real :: fx
+                end function activationFunctionDerivative
+
             end interface
 
         end subroutine nt_netBackPropagation

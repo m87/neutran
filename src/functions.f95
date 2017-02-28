@@ -1,5 +1,5 @@
 module nt_FunctionsModule
-    public :: logistic, logisticd, const, constd
+    public :: nt_logistic, logisticd, const, constd
 
     contains
     
@@ -8,15 +8,14 @@ module nt_FunctionsModule
         !args(1) - a
         !args(2) - b
 
-        function logistic(args, x) result(fx)
-            implicit none
-            real, intent(in) :: args(:)
+        function nt_logistic(x, args) result(fx)
+            real, intent(in) :: args(0:)
             real, intent(in) :: x
             real :: fx
 
             fx = args(1) / (args(2) + exp(-x))
 
-        end function logistic
+        end function nt_logistic
 
         !Logistic function derivative
         function logisticd(args, x) result(fx)

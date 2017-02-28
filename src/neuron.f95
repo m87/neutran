@@ -1,5 +1,6 @@
 module nt_NeuronModule
     use nt_TypesModule
+    use nt_FunctionsModule
     
     public :: nt_hiddenNeuronInit, nt_outputNeuronInit, nt_inputNeuronInit
 
@@ -64,7 +65,7 @@ module nt_NeuronModule
             type(nt_Neuron) :: this
             type(nt_Layer) :: previousLayer
 
-            call nt_neuronFeed_default(this, previousLayer, logistc, (/ 1.0 /))
+            !call nt_neuronFeed_custom(this, previousLayer, nt_logistc, (/ 1.0 /))
 
         end subroutine nt_neuronFeed_default     
 
@@ -72,7 +73,7 @@ module nt_NeuronModule
             type(nt_Neuron) :: this
             type(nt_Layer) :: previousLayer
             real, intent(in) :: args(0:)
-
+           
             interface
                 function activationFunction(x, args) result(fx)
                     real, intent(in) :: x

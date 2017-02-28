@@ -75,7 +75,7 @@ module nt_LayerModule
             type(nt_Layer) :: previous
             type(nt_Layer) :: next
             
-            call nt_layerFeed_custom(previous, next, logistc, (/ 1.0 /))           
+            call nt_layerFeed_custom(previous, next, nt_logistic, (/ 1.0 /))           
         end subroutine nt_layerFeed_default
 
         subroutine nt_layerFeed_custom(previous, next, activationFunction, args)
