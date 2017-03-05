@@ -21,10 +21,11 @@ program neuronTest
             logical :: res
             type(nt_Neuron) :: neuron
 
-            call nt_hiddenNeuronInit(neuron, 10, mockWeightInitMethod, (/ 4.0 /), .FALSE.)
+            call nt_hiddenNeuronInit(neuron, 10, mockWeightInitMethod, (/ 4.0 /), .FALSE., 5)
 
             res = sft_assertEqual(size(neuron%synapses), 10)  & 
-                .AND. sft_assertEqual(neuron%synapses(4)%weight, 4.0) 
+                .AND. sft_assertEqual(neuron%synapses(4)%weight, 4.0) &
+                .AND. sft_assertEqual(neuron%id, 5)
                 
         end function shouldCorrectlyInitHiddenNeuron
 
@@ -34,7 +35,7 @@ program neuronTest
 
             call nt_outputNeuronInit(neuron)
 
-            res = sft_assertEqual(size(neuron%synapses), 0) &
+            res = sft_assertEqual(size(neuron%synapses), 10) &
                 .AND. sft_assertEqual(neuron%nextLayerSize, 0)
         end function shouldNotSetNextLayerForOutputNeuron
 

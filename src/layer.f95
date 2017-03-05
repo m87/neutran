@@ -44,7 +44,7 @@ module nt_LayerModule
             select case (layerType)
                 case (0)
                     do, i=0, layerSize - 1
-                       call nt_inputNeuronInit(this%neurons(i), nextLayerSize, weightInitMethod, weightInitMethodArgs, bias)
+                       call nt_inputNeuronInit(this%neurons(i), nextLayerSize, weightInitMethod, weightInitMethodArgs, bias, i)
                     end do    
                 case (2)
                     output_loop: do, i=0, layerSize - 1
@@ -52,7 +52,7 @@ module nt_LayerModule
                     end do output_loop
                 case default
                     hidden_loop: do, i=0, layerSize - 1
-                        call nt_hiddenNeuronInit(this%neurons(i), nextLayerSize, weightInitMethod, weightInitMethodArgs, bias)
+                        call nt_hiddenNeuronInit(this%neurons(i), nextLayerSize, weightInitMethod, weightInitMethodArgs, bias, i)
                     end do hidden_loop
             end select
 

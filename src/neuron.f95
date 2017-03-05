@@ -10,7 +10,7 @@ module nt_NeuronModule
 
     contains
 
-        subroutine nt_hiddenNeuronInit(this, nextLayerSize, weightInitMethod, weightInitMethodArgs, bias)
+        subroutine nt_hiddenNeuronInit(this, nextLayerSize, weightInitMethod, weightInitMethodArgs, bias, id)
             type(nt_Neuron) :: this
             integer :: nextLayerSize, layerSize
             real, intent(in) :: weightInitMethodArgs(0:)
@@ -22,6 +22,8 @@ module nt_NeuronModule
                     real, intent(in) :: args(0:)
                 end subroutine weightInitMethod
             end interface
+
+            this%id = id
 
             allocate(this%synapses(0:nextLayerSize - 1))
             init_loop: do, i=0, nextLayerSize
@@ -37,7 +39,7 @@ module nt_NeuronModule
 
         end subroutine nt_hiddenNeuronInit
         
-        subroutine nt_inputNeuronInit(this, nextLayerSize, weightInitMethod, weightInitMethodArgs, bias)
+        subroutine nt_inputNeuronInit(this, nextLayerSize, weightInitMethod, weightInitMethodArgs, bias, id)
             type(nt_Neuron) :: this
             integer :: nextLayerSize
             real, intent(in) :: weightInitMethodArgs(0:)
@@ -50,7 +52,7 @@ module nt_NeuronModule
                 end subroutine weightInitMethod
             end interface
 
-            call nt_hiddenNeuronInit(this, nextLayerSize, weightInitMethod, weightInitMethodArgs, bias)
+            call nt_hiddenNeuronInit(this, nextLayerSize, weightInitMethod, weightInitMethodArgs, bias, id)
 
         end subroutine nt_inputNeuronInit
         
@@ -73,6 +75,8 @@ module nt_NeuronModule
             type(nt_Neuron) :: this
             type(nt_Layer) :: previousLayer
             real, intent(in) :: args(0:)
+            real :: activationSum
+            integer :: i
            
             interface
                 function activationFunction(x, args) result(fx)
@@ -81,6 +85,12 @@ module nt_NeuronModule
                     real :: fx
                 end function activationFunction
             end interface
+
+            do, i=0, previousLayer%layerSize
+                activationSum = activationSum + previousLayer%neurons(i)%output * previousLayer%neurons(i)%synapses(this%id)%weight
+            end do
+            
+            this%output = activationFunction(activationSum, args)
 
         end subroutine nt_neuronFeed_custom
 
