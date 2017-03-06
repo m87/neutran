@@ -97,24 +97,20 @@ module nt_NetModule
             
             interface
                 function activationFunction(x, args) result(fx)
-                    real :: x
-                    real :: args(0:)
+                    real, intent(in) :: x
+                    real, intent(in) :: args(0:)
                     real :: fx
                 end function activationFunction
             end interface
 
             numberOfLayers = size(this%topology)
 
-            do, i=0, this%layers(0)%layerSize - 1
-                this%layers(0)%neurons(i)%output = input(i)
+            call nt_layerFeedInput(this%layers(0), input)
+
+            do, i=1, numberOfLayers
+                call nt_layerFeed(this%layers(i-1), this%layers(i), activationFunction, args)
             end do
                
-            first: do, l = 0, numberOfLayers - 1
-                second: do,i =0, this%layers(l)%layerSize - 1
-                    !call nt_neuronFeed(this%layers(l)%neurons(i), this%layers(l-1), activationFunction, args)
-                end do second
-            end do first
-
         end subroutine nt_netFeed
 
         subroutine nt_netBackPropagation(this, targets, activationFunction, activationFunctionDerivative, args)

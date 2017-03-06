@@ -82,6 +82,7 @@ module nt_LayerModule
             type(nt_Layer) :: previous
             type(nt_Layer) :: next
             real, intent(in) :: args(0:)
+            integer :: i
 
             interface
                 function activationFunction(x, args) result(fx)
@@ -91,6 +92,21 @@ module nt_LayerModule
                 end function activationFunction
             end interface
 
+            do, i = 0, next%layerSize
+                call neuron_feedForward(next%neurons(i), previous, activationFunction, args)
+            end do
+
         end subroutine nt_layerFeed_custom
+
+        subroutine nt_layerFeedInput(this, input)
+            type(nt_Layer) :: this
+            real :: input(0:)
+            integer :: i
+
+            do, i = 0, this%layerSize
+                this%neurons(i)%output = input(i)
+            end do
+
+        end subroutine nt_layerFeedInput
 
 end module nt_LayerModule
