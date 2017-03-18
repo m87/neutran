@@ -50,14 +50,14 @@ module nt_NetModule
             end interface              
 
             this%topology = topology
-            allocate(this%layers(0:size(topology)))
-            call nt_layerInit(this%layers(0), 0, topology(0), topology(1), id, weightInitMethod, weightInitMethodArgs, bias)
+            allocate(this%layers(0:size(topology)-1))
+            call nt_layerInit(this%layers(0), 0, topology(0), topology(1), 0, weightInitMethod, weightInitMethodArgs, bias)
             
-            init_loop: do, i=1, size(topology) - 1
-                call nt_layerInit(this%layers(i), 1, topology(i), topology(i+1), id, weightInitMethod, weightInitMethodArgs, bias)
+            init_loop: do, i=1, size(topology) - 2
+                call nt_layerInit(this%layers(i), 1, topology(i), topology(i+1), i, weightInitMethod, weightInitMethodArgs, bias)
             end do init_loop
             
-            call nt_layerInit(this%layers(size(topology)-1), 1, topology(size(topology)-1), 0, size(topology)-1, & 
+            call nt_layerInit(this%layers(size(topology)-1), 1, topology(size(topology)-1), size(topology)-1, size(topology)-1, & 
                 weightInitMethod, weightInitMethodArgs, bias)
 
 
@@ -87,7 +87,86 @@ module nt_NetModule
             type(nt_Net) :: this
         end subroutine nt_classify    
 
+        subroutine nt_outputGradients(this, targets, activationFunctionDerivative, args)
+            type(nt_Net) :: this
+            real :: targets(0:)
+            real :: args(0:)
+
+            interface
+                function activationFunctionDerivative(x, args) result(fx)
+                    real, intent(in) :: x
+                    real, intent(in) :: args(0:)
+                    real :: fx
+                end function activationFunctionDerivative
+            end interface
+
+        end subroutine nt_outputGradients
+
+        subroutine nt_hiddenGradients(this, targets)
+            type(nt_Net) :: this
+            real :: targets(0:)
+
+            interface
+                function activationFunctionDerivative(x, args) result(fx)
+                    real, intent(in) :: x
+                    real, intent(in) :: args(0:)
+                    real :: fx
+                end function activationFunctionDerivative
+            end interface
 
 
+        end subroutine nt_hiddenGradients
+
+        subroutine nt_adaptNeurons(this)
+            type(nt_Net) :: this
+
+        end subroutine nt_adaptNeurons
+
+        subroutine nt_netFeed(this, activationFunction, args, input)
+            type(nt_Net) :: this
+            real :: args(0:)
+            real :: input(0:)
+            integer :: i, l
+            integer :: numberOfLayers
+            
+            interface
+                function activationFunction(x, args) result(fx)
+                    real, intent(in) :: x
+                    real, intent(in) :: args(0:)
+                    real :: fx
+                end function activationFunction
+            end interface
+
+            numberOfLayers = size(this%topology)
+
+            call nt_layerFeedInput(this%layers(0), input)
+
+            do, i=1, numberOfLayers-1
+                call nt_layerFeed(this%layers(i-1), this%layers(i), activationFunction, args)
+            end do
+               
+        end subroutine nt_netFeed
+
+        subroutine nt_netBackPropagation(this, targets, activationFunction, activationFunctionDerivative, args)
+            type(nt_Net) :: this
+            real :: args(0:)
+            real, intent(in) :: targets(0:)
+    
+            interface
+                function activationFunction(x, args) result(fx)
+                    real :: x
+                    real :: args(0:)
+                    real :: fx
+                end function activationFunction
+                
+                function activationFunctionDerivative(x, args) result(fx)
+                    real :: x
+                    real :: args(0:)
+                    real :: fx
+                end function activationFunctionDerivative
+
+            end interface
+
+        end subroutine nt_netBackPropagation
 
 end module nt_NetModule
