@@ -39,7 +39,7 @@ module nt_LayerModule
             this%layerSize = layerSize
             this%id = id
             
-            allocate(this%neurons(0:layerSize - 1))
+            allocate(this%neurons(0:layerSize-1))
             
             select case (layerType)
                 case (0)
@@ -92,8 +92,8 @@ module nt_LayerModule
                 end function activationFunction
             end interface
 
-            do, i = 0, next%layerSize
-                call neuron_feedForward(next%neurons(i), previous, activationFunction, args)
+            do, i = 0, next%layerSize -1
+                call nt_neuronFeed(next%neurons(i), previous, activationFunction, args)
             end do
 
         end subroutine nt_layerFeed_custom
@@ -103,10 +103,15 @@ module nt_LayerModule
             real :: input(0:)
             integer :: i
 
-            do, i = 0, this%layerSize
+            do, i = 0, this%layerSize - 1
                 this%neurons(i)%output = input(i)
             end do
 
         end subroutine nt_layerFeedInput
+
+        subroutine nt_gradient(this, layer)
+            type(nt_Layer) :: this
+            type(nt_Layer) :: layer
+        end subroutine
 
 end module nt_LayerModule

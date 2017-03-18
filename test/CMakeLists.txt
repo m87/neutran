@@ -10,7 +10,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${PRERELEASE}/../lib)
 add_executable(neuronTest.test src/neuronTest.f95)
 TARGET_LINK_LIBRARIES(neuronTest.test sft neutran)
 
-add_executable(netTest.test src/netTest.f95)
+add_executable(netTest.test src/netTest.f95 src/helpers.f95)
 TARGET_LINK_LIBRARIES(netTest.test sft neutran)
 
 add_executable(layerTest.test src/layerTest.f95)

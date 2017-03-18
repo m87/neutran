@@ -86,7 +86,8 @@ module nt_NeuronModule
                 end function activationFunction
             end interface
 
-            do, i=0, previousLayer%layerSize
+            activationSum=0
+            do, i=0, previousLayer%layerSize - 1
                 activationSum = activationSum + previousLayer%neurons(i)%output * previousLayer%neurons(i)%synapses(this%id)%weight
             end do
             

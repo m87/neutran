@@ -41,7 +41,8 @@ program neuronTest
             call nt_netFeed(net, testActivationFunction, (/ 2.0 /), (/ 2.0, 4.0 /))
 
             !then
-            !net%  check last layer output expect (/ 12.0, 12.0/)
+            res = sft_assertEqual(net%layers(2)%neurons(0)%output, 12.0) &
+                .AND. sft_assertEqual(net%layers(2)%neurons(1)%output, 12.0)
 
         end function shouldReturnCorrectOutput
 
